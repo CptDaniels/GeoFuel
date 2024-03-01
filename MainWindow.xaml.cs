@@ -19,6 +19,8 @@ namespace GeoFuel
         public MainWindow()
         {
             InitializeComponent();
+            string input;
+            TextBox.Text = string.Empy;
         }
     }
 }
