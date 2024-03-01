@@ -20,7 +20,7 @@ namespace GeoFuel
         {
             InitializeComponent();
             string input;
-            TextBox.Text = string.Empy;
+            
         }
     }
 }
