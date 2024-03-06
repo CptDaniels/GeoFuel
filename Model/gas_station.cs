@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,6 +8,10 @@ using System.Threading.Tasks;
 namespace GeoFuel.Model
 {
     public class gas_station{
+        public override string ToString()
+        {
+            return $"Nazwa stacji: {nazwa}, Adres: {adres}, Miasto: {miejscowosc}, Benzyna:{benzynySilnikowe}, Diesel:{olejeNapedowe}, LPG:{gazPlynnyLPG}";
+        }
         public int dkn { get; set; }
         public string nazwa { get; set; }
         public string nip { get; set; }

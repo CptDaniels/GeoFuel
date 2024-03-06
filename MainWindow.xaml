@@ -26,8 +26,11 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="16*" />
-            <ColumnDefinition Width="0*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -35,19 +38,64 @@
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Border Background="LightGray" Grid.ColumnSpan="3" />
-        <TextBox TextWrapping="Wrap" Text="TextBox" FontSize="15" VerticalAlignment="Top" HorizontalAlignment="Left"
-                 Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"
-                 Width="600" Height="33" x:Name="textBox" Margin="30,20,30,20"/>
-
-        <Button VerticalAlignment="Top" Height="33" Click="Button_Click"
+        <StackPanel Grid.Row="0" Grid.ColumnSpan="7" Orientation="Horizontal">
+            <Border Background="LightGray" Grid.ColumnSpan="7" />
+            <TextBox mah:TextBoxHelper.Watermark="Wpisz kod pocztowy"  TextWrapping="Wrap" FontSize="15" VerticalAlignment="Top" HorizontalAlignment="Left"
+                Grid.Column="0" Grid.Row="0"
+                Width="600" Height="33" x:Name="textBox" Margin="30,20,30,20" KeyDown="TextBox_KeyDown"/>
+            <Button x:Name="search" VerticalAlignment="Top" Height="33" Click="Button_Click"
                 Grid.Column="2" Grid.Row="0"
                 HorizontalAlignment="Left" Width="32" Margin="30,20,30,20">
             <iconPacks:PackIconForkAwesome Kind="Search" />
-        </Button>
-        <TextBlock HorizontalAlignment="Left" Grid.Row="1" Grid.ColumnSpan="2" TextWrapping="Wrap" 
-                   Text="TextBlock" x:Name="textBlock"
-                   VerticalAlignment="Top" Margin="30,30,0,0"/>
+            </Button>
+        </StackPanel>
+        
+        <ListBox ItemsSource="{Binding GasStations}" Grid.Row="1" Grid.ColumnSpan="7" Grid.RowSpan="4" HorizontalAlignment="Left">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding nazwa}" Margin="5" Grid.ColumnSpan="3" HorizontalAlignment="Left"/>
+                        <TextBlock Text="{Binding infraKod}" Margin="5" Grid.ColumnSpan="1" Grid.Column="4" HorizontalAlignment="Left"/>
+                        <Image Grid.ColumnSpan="1" Margin="10" Width="32" Height="32" HorizontalAlignment="Right">
+                            <Image.Style>
+                                <Style TargetType="{x:Type Image}">
+                                    <Setter Property="Source" Value="..\..\Icons\fuel-pb-red.png"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding benzynySilnikowe}" Value="1">
+                                            <Setter Property="Source" Value="..\..\Icons\fuel-pb-green.png"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
+                        <Image Grid.ColumnSpan="1" Margin="10" Width="32" Height="32" HorizontalAlignment="Right">
+                            <Image.Style>
+                                <Style TargetType="{x:Type Image}">
+                                    <Setter Property="Source" Value="..\..\Icons\fuel-on-red.png"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding olejeNapedowe}" Value="1">
+                                            <Setter Property="Source" Value="..\..\Icons\fuel-on-green.png"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
+                        <Image Grid.ColumnSpan="1" Margin="10" Width="32" Height="32" HorizontalAlignment="Right">
+                            <Image.Style>
+                                <Style TargetType="{x:Type Image}">
+                                    <Setter Property="Source" Value="..\..\Icons\fuel-lpg-red.png"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding gazPlynnyLPG}" Value="1">
+                                            <Setter Property="Source" Value="..\..\Icons\fuel-lpg-green.png"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
 
     </Grid>
 </mah:MetroWindow>

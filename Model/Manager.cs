@@ -13,13 +13,14 @@ namespace GeoFuel.Model
 {
     public class Manager
     {
-        public ObservableCollection<gas_station> _DatabaseStation = new ObservableCollection<gas_station>()
+        public ObservableCollection<gas_station> _DatabaseStation { get; set; } = new ObservableCollection<gas_station>()
         {
         };
         public ObservableCollection<gas_station> GetStations()
         {
             return _DatabaseStation;
         }
+
     }
 
     
