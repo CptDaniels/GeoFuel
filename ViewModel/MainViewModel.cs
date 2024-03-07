@@ -17,6 +17,7 @@ using GalaSoft.MvvmLight.Command;
 using System.Windows.Data;
 using System.Windows.Interactivity;
 using System.Reflection.Metadata;
+using System.Globalization;
 
 namespace GeoFuel.ViewModel
 {
@@ -122,7 +123,6 @@ namespace GeoFuel.ViewModel
             {
                 try
                 {
-                    //string kod = "32-650";
                     HttpResponseMessage response = await client.GetAsync($"{URI}/api/InfrastructureFuelStation?");
                    
                     response.EnsureSuccessStatusCode();

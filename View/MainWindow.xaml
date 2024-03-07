@@ -43,17 +43,16 @@
         <StackPanel Grid.Row="0" Grid.ColumnSpan="7" Orientation="Horizontal">
             <Border Background="LightGray" Grid.ColumnSpan="7" />
             <TextBox mah:TextBoxHelper.Watermark="Wpisz kod pocztowy"  TextWrapping="Wrap" FontSize="15" VerticalAlignment="Top" HorizontalAlignment="Left"
-            Grid.Row="0" Text="{Binding Postcode, UpdateSourceTrigger=PropertyChanged}"
-            Width="Auto" Height="33" x:Name="textBox" Margin="30,20,30,20" KeyDown="TextBox_KeyDown">
+            Grid.Row="0" Text="{Binding Postcode, UpdateSourceTrigger=PropertyChanged}" mah:TextBoxHelper.ClearTextButton="True"
+            Width="200" Height="33" x:Name="textBox" Margin="30,20,30,20" KeyDown="TextBox_KeyDown">
             </TextBox>
             <TextBox mah:TextBoxHelper.Watermark="Wpisz współrzędne"  TextWrapping="Wrap" FontSize="15" VerticalAlignment="Top" HorizontalAlignment="Left"
-                Grid.Row="0" Text="{Binding Coords, UpdateSourceTrigger=PropertyChanged}"
-                Width="Auto" Height="33" x:Name="textBox2" Margin="30,20,30,20" KeyDown="TextBox_KeyDown2"/>
+                Grid.Row="0" Text="{Binding Coords, UpdateSourceTrigger=PropertyChanged}" mah:TextBoxHelper.ClearTextButton="True"
+                Width="200" Height="33" x:Name="textBox2" Margin="30,20,30,20" KeyDown="TextBox_KeyDown2"/>
             <Button x:Name="search" VerticalAlignment="Top" Height="33"
                 Grid.Column="2" Grid.Row="0" Command="{Binding FilterStationsCommand}" CommandParameter="{Binding ElementName=textBox, Path=Text}"
                 HorizontalAlignment="Left" Width="32" Margin="30,20,30,20">
-                
-            <iconPacks:PackIconForkAwesome Kind="Search" />
+                <iconPacks:PackIconForkAwesome Kind="Search" />
             </Button>
             <Button x:Name="button" VerticalAlignment="Top" Height="33"
                 Grid.Column="3" Grid.Row="0" Command="{Binding FilterPostalCodesCommand}" CommandParameter="{Binding ElementName=textBox2, Path=Text}"
@@ -66,8 +65,10 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding nazwa}" Margin="5" Grid.ColumnSpan="3" HorizontalAlignment="Left"/>
-                        <TextBlock Text="{Binding infraKod}" Margin="5" Grid.ColumnSpan="1" Grid.Column="4" HorizontalAlignment="Left"/>
+                        <TextBlock Text="{Binding infraPoczta}" Margin="5" Grid.ColumnSpan="1" HorizontalAlignment="Left"/>
+                        <TextBlock Text="{Binding nazwaStacji}" Margin="5" Grid.ColumnSpan="3" HorizontalAlignment="Left"/>
+                        <TextBlock Text="Ul." Margin="5" HorizontalAlignment="Left"/>
+                        <TextBlock Text="{Binding infraUlica}" Margin="5" Grid.ColumnSpan="1" Grid.Column="4" HorizontalAlignment="Left"/>
                         <Image Grid.ColumnSpan="1" Margin="10" Width="32" Height="32" HorizontalAlignment="Right">
                             <Image.Style>
                                 <Style TargetType="{x:Type Image}">

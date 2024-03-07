@@ -17,6 +17,7 @@ using MahApps.Metro.Controls;
 using System.Collections.ObjectModel;
 using Newtonsoft.Json;
 using GeoFuel.ViewModel;
+using System.Globalization;
 
 namespace GeoFuel.View
 {
@@ -32,6 +33,7 @@ namespace GeoFuel.View
             InitializeComponent();
             DataContext = new MainViewModel();
         }
+        
         private void LaunchGitHubSite(object sender, RoutedEventArgs e)
         {
             // Launch the GitHub site...
