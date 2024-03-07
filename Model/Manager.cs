@@ -11,6 +11,8 @@ using System.Text.Json;
 using Newtonsoft.Json;
 using System.Linq;
 using System.Windows.Input;
+using System.Security.Policy;
+using System.Windows;
 
 namespace GeoFuel.Model
 {
@@ -37,7 +39,24 @@ namespace GeoFuel.Model
                 return new ObservableCollection<gas_station>();
             }
         }
+        public async Task<ObservableCollection<gas_station>> FilterAndDeserializeListJsonToListAsync(string jsonFilePath, List<string> filter)
+        {
+            try
+            {
+                string jsonContent = await File.ReadAllTextAsync(jsonFilePath);
+                List<gas_station> dataList = JsonConvert.DeserializeObject<List<gas_station>>(jsonContent);
+                var filteredData = new ObservableCollection<gas_station>(dataList.Where(station =>
+                    filter.Contains(station.infraKod)));
+                return filteredData;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return new ObservableCollection<gas_station>();
+            }
+        }
     }
+    
 
     
 }

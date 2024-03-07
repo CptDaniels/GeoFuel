@@ -22,7 +22,8 @@ namespace GeoFuel.ViewModel
 {
     public class MainViewModel : INotifyPropertyChanged
     {
-        public static readonly String URI = "https://api.ure.gov.pl";
+        public static readonly string URI = "https://api.ure.gov.pl";
+        private readonly string username = "cptdaniels";
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -31,6 +32,7 @@ namespace GeoFuel.ViewModel
         
 
         private Manager manager;
+        private GeoManager geoManager;
         private ObservableCollection<gas_station> _gasStations;
         public ObservableCollection<gas_station> GasStations
         {
@@ -38,6 +40,16 @@ namespace GeoFuel.ViewModel
             set
             {
                 _gasStations = value;
+                OnPropertyChanged();
+            }
+        }
+        private List<string> _postCodes;
+        public List<string> PostCodes
+        {
+            get { return _postCodes; }
+            set
+            {
+                _postCodes = value;
                 OnPropertyChanged();
             }
         }
@@ -51,15 +63,57 @@ namespace GeoFuel.ViewModel
                 OnPropertyChanged();
             }
         }
+        private string _coords;
+        public string Coords
+        {
+            get { return _coords; }
+            set
+            {
+                _coords = value;
+                OnPropertyChanged();
+                string[] parts = value.Split(',');
+                if (parts.Length == 2)
+                {
+                    // Assign the first part to the Latitude property
+                    Lat = parts[0].Trim();
+                    // Assign the second part to the Longitude property
+                    Lng = parts[1].Trim();
+                }
+            }
+        }
+        private string _lat;
+        public string Lat
+        {
+            get { return _lat; }
+            set
+            {
+                _lat = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string _lng;
+        public string Lng
+        {
+            get { return _lng; }
+            set
+            {
+                _lng = value;
+                OnPropertyChanged();
+            }
+        }
         public ICommand LoadStationsCommand { get; }
         public ICommand FilterStationsCommand { get; }
+        public ICommand FilterPostalCodesCommand{ get; }
         public MainViewModel()
         {
             
             manager = new Manager();
+            geoManager = new GeoManager();
             LoadStationsCommand = new RelayCommand(async () => await LoadStations());
             LoadStationsCommand.Execute(null);
             FilterStationsCommand = new RelayCommand(async () => await FilterStations());
+            FilterPostalCodesCommand = new RelayCommand(async () => await FilterPostalCodes());
         }
 
         private async Task LoadStations()
@@ -96,6 +150,23 @@ namespace GeoFuel.ViewModel
         private void ResetCollection()
         {
             GasStations.Clear();
+        }
+
+
+        private async Task FilterPostalCodes()
+        {
+            try
+            {
+                List<string> postCodesList = await geoManager.LoadPostCodes(Lat,Lng);
+        
+                ObservableCollection<gas_station> stations = await manager.FilterAndDeserializeListJsonToListAsync("fuelstations.json", postCodesList);
+                GasStations = stations;
+        
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error filtering stations: {ex.Message}");
+            }
         }
         private async Task FilterStations()
         {

@@ -47,13 +47,19 @@
             Width="Auto" Height="33" x:Name="textBox" Margin="30,20,30,20" KeyDown="TextBox_KeyDown">
             </TextBox>
             <TextBox mah:TextBoxHelper.Watermark="Wpisz współrzędne"  TextWrapping="Wrap" FontSize="15" VerticalAlignment="Top" HorizontalAlignment="Left"
-                Grid.Row="0"
+                Grid.Row="0" Text="{Binding Coords, UpdateSourceTrigger=PropertyChanged}"
                 Width="Auto" Height="33" x:Name="textBox2" Margin="30,20,30,20" KeyDown="TextBox_KeyDown2"/>
             <Button x:Name="search" VerticalAlignment="Top" Height="33"
                 Grid.Column="2" Grid.Row="0" Command="{Binding FilterStationsCommand}" CommandParameter="{Binding ElementName=textBox, Path=Text}"
                 HorizontalAlignment="Left" Width="32" Margin="30,20,30,20">
+                
             <iconPacks:PackIconForkAwesome Kind="Search" />
             </Button>
+            <Button x:Name="button" VerticalAlignment="Top" Height="33"
+                Grid.Column="3" Grid.Row="0" Command="{Binding FilterPostalCodesCommand}" CommandParameter="{Binding ElementName=textBox2, Path=Text}"
+                HorizontalAlignment="Left" Width="32" Margin="30,20,30,20" Background="blue">
+                 <iconPacks:PackIconForkAwesome Kind="Search" />
+                </Button>
         </StackPanel>
         
         <ListBox ItemsSource="{Binding GasStations}" Grid.Row="1" Grid.ColumnSpan="7" Grid.RowSpan="4" HorizontalAlignment="Left">
