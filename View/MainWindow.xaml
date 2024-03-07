@@ -1,12 +1,14 @@
-﻿<mah:MetroWindow x:Class="GeoFuel.MainWindow"
+﻿<mah:MetroWindow x:Class="GeoFuel.View.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        xmlns:local="clr-namespace:GeoFuel"
-        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:local="clr-namespace:GeoFuel.View"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" 
         GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
+        xmlns:viewmodel="clr-namespace:GeoFuel.ViewModel" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+                 d:DataContext="{d:DesignInstance Type=viewmodel:MainViewModel}"
         ResizeMode="CanResizeWithGrip"
         WindowStartupLocation="CenterScreen"
         Title="MainWindow" 
@@ -41,13 +43,14 @@
         <StackPanel Grid.Row="0" Grid.ColumnSpan="7" Orientation="Horizontal">
             <Border Background="LightGray" Grid.ColumnSpan="7" />
             <TextBox mah:TextBoxHelper.Watermark="Wpisz kod pocztowy"  TextWrapping="Wrap" FontSize="15" VerticalAlignment="Top" HorizontalAlignment="Left"
-                Grid.Row="0"
-                Width="Auto" Height="33" x:Name="textBox" Margin="30,20,30,20" KeyDown="TextBox_KeyDown"/>
+            Grid.Row="0" Text="{Binding Postcode, UpdateSourceTrigger=PropertyChanged}"
+            Width="Auto" Height="33" x:Name="textBox" Margin="30,20,30,20" KeyDown="TextBox_KeyDown">
+            </TextBox>
             <TextBox mah:TextBoxHelper.Watermark="Wpisz współrzędne"  TextWrapping="Wrap" FontSize="15" VerticalAlignment="Top" HorizontalAlignment="Left"
                 Grid.Row="0"
                 Width="Auto" Height="33" x:Name="textBox2" Margin="30,20,30,20" KeyDown="TextBox_KeyDown2"/>
-            <Button x:Name="search" VerticalAlignment="Top" Height="33" Click="Button_Click"
-                Grid.Column="2" Grid.Row="0"
+            <Button x:Name="search" VerticalAlignment="Top" Height="33"
+                Grid.Column="2" Grid.Row="0" Command="{Binding FilterStationsCommand}" CommandParameter="{Binding ElementName=textBox, Path=Text}"
                 HorizontalAlignment="Left" Width="32" Margin="30,20,30,20">
             <iconPacks:PackIconForkAwesome Kind="Search" />
             </Button>

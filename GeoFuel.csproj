@@ -21,15 +21,11 @@
     <PackageReference Include="MahApps.Metro" Version="2.4.10" />
     <PackageReference Include="MahApps.Metro.IconPacks" Version="4.11.0" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="6.0.0" />
+    <PackageReference Include="MvvmLightLibs" Version="5.4.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="NGeo" Version="1.9.0" />
     <PackageReference Include="Nominatim.API" Version="2.0.0" />
     <PackageReference Include="System.Text.Json" Version="8.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="View\" />
-    <Folder Include="ViewModel\" />
   </ItemGroup>
 
   <ItemGroup>

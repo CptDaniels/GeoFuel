@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using Newtonsoft.Json;
 using System.Linq;
+using System.Windows.Input;
 
 namespace GeoFuel.Model
 {
@@ -22,12 +23,19 @@ namespace GeoFuel.Model
         {
             return _DatabaseStation;
         }
-        public ObservableCollection<gas_station> FilterAndDeserializeJsonToList(string jsonFilePath, string filter)
+        public async Task<ObservableCollection<gas_station>> FilterAndDeserializeJsonToListAsync(string jsonFilePath, string filter)
         {
-            string jsonContent = File.ReadAllText(jsonFilePath);
-            List<gas_station> dataList = JsonConvert.DeserializeObject<List<gas_station>>(jsonContent);
-            var filteredData = new ObservableCollection<gas_station>(dataList.Where(station => station.infraKod == filter));
-            return filteredData;
+            try
+            {
+                string jsonContent = await File.ReadAllTextAsync(jsonFilePath);
+                List<gas_station> dataList = JsonConvert.DeserializeObject<List<gas_station>>(jsonContent);
+                var filteredData = new ObservableCollection<gas_station>(dataList.Where(station => station.infraKod == filter));
+                return filteredData;
+            }
+            catch (Exception ex)
+            {
+                return new ObservableCollection<gas_station>();
+            }
         }
     }
 

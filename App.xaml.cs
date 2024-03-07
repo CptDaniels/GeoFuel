@@ -1,4 +1,6 @@
-﻿using System.Configuration;
+﻿using GeoFuel.View;
+using GeoFuel.ViewModel;
+using System.Configuration;
 using System.Data;
 using System.Windows;
 
