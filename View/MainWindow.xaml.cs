@@ -46,13 +46,14 @@ namespace GeoFuel.View
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             // Calculate proportional column widths
-            double totalWeight = 1.2 + 3 + 2 + 1 + 1 + 1; // Total weight of all columns
+            double totalWeight = 1.2 + 3 + 2 + 1 + 1 + 1 + 1; // Total weight of all columns
             double column1Width = (GeoGrid.ActualWidth / totalWeight) * 1.2;
             double column2Width = (GeoGrid.ActualWidth / totalWeight) * 3;
             double column3Width = (GeoGrid.ActualWidth / totalWeight) * 2;
             double column4Width = (GeoGrid.ActualWidth / totalWeight) * 1;
             double column5Width = (GeoGrid.ActualWidth / totalWeight) * 1;
             double column6Width = (GeoGrid.ActualWidth / totalWeight) * 1;
+            double column7Width = (GeoGrid.ActualWidth / totalWeight) * 1;
 
             // Set calculated column widths
             GridViewColumn1.Width = column1Width;
@@ -61,6 +62,7 @@ namespace GeoFuel.View
             GridViewColumn4.Width = column4Width;
             GridViewColumn5.Width = column5Width;
             GridViewColumn6.Width = column6Width;
+            GridViewColumn7.Width = column6Width;
         }
     }
 }

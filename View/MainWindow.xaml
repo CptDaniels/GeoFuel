@@ -32,12 +32,13 @@
             <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Rectangle Grid.Row="0" Grid.ColumnSpan="6" Fill="LightGray" />
+        <Rectangle Grid.Row="0" Grid.ColumnSpan="7" Fill="LightGray" />
         <TextBox mah:TextBoxHelper.Watermark="Wpisz kod pocztowy"  TextWrapping="Wrap" FontSize="15" VerticalAlignment="Top" HorizontalAlignment="Left"
                 Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Postcode, UpdateSourceTrigger=PropertyChanged}" mah:TextBoxHelper.ClearTextButton="True"
                 Width="200" Height="33" x:Name="textBox" Margin="30,20,30,20">
@@ -56,11 +57,11 @@
             <iconPacks:PackIconForkAwesome Kind="Search" />
         </Button>
 
-        <ListView ItemsSource="{Binding GasStations}" Grid.Row="1" Grid.ColumnSpan="6" HorizontalAlignment="Stretch">
+        <ListView ItemsSource="{Binding GasStations}" Grid.Row="1" Grid.ColumnSpan="7" HorizontalAlignment="Stretch">
             <ListView.View>
                 <GridView>
                     <GridViewColumn x:Name="GridViewColumn1" Header="Kod Pocztowy" Width="Auto" DisplayMemberBinding="{Binding infraPoczta}"/>
-                    <GridViewColumn x:Name="GridViewColumn2" Header="Nazwa Stacji" Width="150" DisplayMemberBinding="{Binding nazwaStacji}"/>
+                    <GridViewColumn x:Name="GridViewColumn2" Header="Nazwa Stacji" Width="Auto" DisplayMemberBinding="{Binding nazwaStacji}"/>
                     <GridViewColumn x:Name="GridViewColumn3" Header="Ulica" Width="Auto">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -71,7 +72,8 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn x:Name="GridViewColumn4" Header="Benzyna" Width="Auto">
+                    <GridViewColumn x:Name="GridViewColumn4" Header="Nr" Width="Auto" DisplayMemberBinding="{Binding infraNrLokalu}"/>
+                    <GridViewColumn x:Name="GridViewColumn5" Header="Benzyna" Width="Auto">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Image Width="32" Height="32" HorizontalAlignment="Right">
@@ -89,7 +91,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn x:Name="GridViewColumn5" Header="Oleje" Width="Auto">
+                    <GridViewColumn x:Name="GridViewColumn6" Header="Oleje" Width="Auto">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Image Width="32" Height="32" HorizontalAlignment="Right">
@@ -107,7 +109,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn x:Name="GridViewColumn6" Header="LPG" Width="Auto">
+                    <GridViewColumn x:Name="GridViewColumn7" Header="LPG" Width="Auto">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Image Width="32" Height="32" HorizontalAlignment="Right">
