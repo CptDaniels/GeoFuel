@@ -17,7 +17,6 @@ using MahApps.Metro.Controls;
 using System.Collections.ObjectModel;
 using Newtonsoft.Json;
 using GeoFuel.ViewModel;
-using System.Globalization;
 
 namespace GeoFuel.View
 {
@@ -32,6 +31,7 @@ namespace GeoFuel.View
         {
             InitializeComponent();
             DataContext = new MainViewModel();
+            SizeChanged += Window_SizeChanged;
         }
         
         private void LaunchGitHubSite(object sender, RoutedEventArgs e)
@@ -43,23 +43,24 @@ namespace GeoFuel.View
         {
             // deploy some CupCakes...
         }
-
-
-        private void TextBox_KeyDown(object sender, KeyEventArgs e)
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            //if (e.Key == Key.Enter)
-            //{
-            //    UpdateSource();
-            //}
-        }
-        
-        private void TextBox_KeyDown2(object sender, KeyEventArgs e)
-        {
-            //if (e.Key == Key.Enter)
-            //{
-            //    Button_Click(sender, e);
-            //}
-        }
+            // Calculate proportional column widths
+            double totalWeight = 1.2 + 3 + 2 + 1 + 1 + 1; // Total weight of all columns
+            double column1Width = (GeoGrid.ActualWidth / totalWeight) * 1.2;
+            double column2Width = (GeoGrid.ActualWidth / totalWeight) * 3;
+            double column3Width = (GeoGrid.ActualWidth / totalWeight) * 2;
+            double column4Width = (GeoGrid.ActualWidth / totalWeight) * 1;
+            double column5Width = (GeoGrid.ActualWidth / totalWeight) * 1;
+            double column6Width = (GeoGrid.ActualWidth / totalWeight) * 1;
 
+            // Set calculated column widths
+            GridViewColumn1.Width = column1Width;
+            GridViewColumn2.Width = column2Width;
+            GridViewColumn3.Width = column3Width;
+            GridViewColumn4.Width = column4Width;
+            GridViewColumn5.Width = column5Width;
+            GridViewColumn6.Width = column6Width;
+        }
     }
 }

@@ -17,7 +17,6 @@ using GalaSoft.MvvmLight.Command;
 using System.Windows.Data;
 using System.Windows.Interactivity;
 using System.Reflection.Metadata;
-using System.Globalization;
 
 namespace GeoFuel.ViewModel
 {
