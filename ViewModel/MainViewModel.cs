@@ -17,22 +17,27 @@ using GalaSoft.MvvmLight.Command;
 using System.Windows.Data;
 using System.Windows.Interactivity;
 using System.Reflection.Metadata;
+using Newtonsoft.Json;
 
 namespace GeoFuel.ViewModel
 {
     public class MainViewModel : INotifyPropertyChanged
     {
         public static readonly string URI = "https://api.ure.gov.pl";
-        private readonly string username = "cptdaniels";
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         
-
+        
+        private string _postcode;
+        private List<string> _postCodes;
+        private string _coords;
+        private string _lat;
+        private string _lng;
         private Manager manager;
-        private GeoManager geoManager;
+        //private GeoManager geoManager;
         private ObservableCollection<gas_station> _gasStations;
         public ObservableCollection<gas_station> GasStations
         {
@@ -43,7 +48,7 @@ namespace GeoFuel.ViewModel
                 OnPropertyChanged();
             }
         }
-        private List<string> _postCodes;
+        
         public List<string> PostCodes
         {
             get { return _postCodes; }
@@ -53,7 +58,6 @@ namespace GeoFuel.ViewModel
                 OnPropertyChanged();
             }
         }
-        private string _postcode;
         public string Postcode
         {
             get { return _postcode; }
@@ -63,7 +67,6 @@ namespace GeoFuel.ViewModel
                 OnPropertyChanged();
             }
         }
-        private string _coords;
         public string Coords
         {
             get { return _coords; }
@@ -74,14 +77,11 @@ namespace GeoFuel.ViewModel
                 string[] parts = value.Split(',');
                 if (parts.Length == 2)
                 {
-                    // Assign the first part to the Latitude property
                     Lat = parts[0].Trim();
-                    // Assign the second part to the Longitude property
                     Lng = parts[1].Trim();
                 }
             }
         }
-        private string _lat;
         public string Lat
         {
             get { return _lat; }
@@ -91,8 +91,6 @@ namespace GeoFuel.ViewModel
                 OnPropertyChanged();
             }
         }
-
-        private string _lng;
         public string Lng
         {
             get { return _lng; }
@@ -104,18 +102,38 @@ namespace GeoFuel.ViewModel
         }
         public ICommand LoadStationsCommand { get; }
         public ICommand FilterStationsCommand { get; }
-        public ICommand FilterPostalCodesCommand{ get; }
+        public ICommand LoadPostCodesCommand { get; }
+        public ICommand GetLocationCommand { get; }
         public MainViewModel()
         {
             
             manager = new Manager();
-            geoManager = new GeoManager();
+            //geoManager = new GeoManager();
             LoadStationsCommand = new RelayCommand(async () => await LoadStations());
             LoadStationsCommand.Execute(null);
             FilterStationsCommand = new RelayCommand(async () => await FilterStations());
-            FilterPostalCodesCommand = new RelayCommand(async () => await FilterPostalCodes());
+            LoadPostCodesCommand = new RelayCommand(async () => await LoadPostCodes());
+            GetLocationCommand = new RelayCommand(async () => await GetLocationAndLoadPostCodes());
         }
-
+        private async Task GetLocation()
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    HttpResponseMessage response = await client.GetAsync("http://ip-api.com/json/");
+                    response.EnsureSuccessStatusCode();
+                    var location = await response.Content.ReadAsStringAsync();
+                    Location? locationResponse = JsonConvert.DeserializeObject<Location>(location);
+                    Lat = locationResponse.lat;
+                    Lng = locationResponse.lon;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+        }
         private async Task LoadStations()
         {
             using (HttpClient client = new HttpClient())
@@ -145,26 +163,28 @@ namespace GeoFuel.ViewModel
                 }
             }
         }
-
-        private void ResetCollection()
+        private async Task LoadPostCodes()
         {
-            GasStations.Clear();
-        }
-
-
-        private async Task FilterPostalCodes()
-        {
-            try
+            using (HttpClient client = new HttpClient())
             {
-                List<string> postCodesList = await geoManager.LoadPostCodes(Lat,Lng);
-        
-                ObservableCollection<gas_station> stations = await manager.FilterAndDeserializeListJsonToListAsync("fuelstations.json", postCodesList);
-                GasStations = stations;
-        
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error filtering stations: {ex.Message}");
+                try
+                {
+                    //Lat = lat;
+                    //Lng = lng;
+                    HttpResponseMessage response = await client.GetAsync($"http://api.geonames.org/findNearbyPostalCodesJSON?lat={Lat}&lng={Lng}&country=PL&radius=5&maxRows=100&username=cptdaniels");
+                   
+                    response.EnsureSuccessStatusCode();
+                    
+                    var postalcodes = await response.Content.ReadAsStringAsync();
+                    var postalCodeResponse = JsonConvert.DeserializeObject<PostalCodeResponse>(postalcodes);
+                    var postCodesList = new List<string>(postalCodeResponse?.postalCodes?.Select(code => code.postalcode)?.ToList());
+                    ObservableCollection<gas_station> stations = await manager.FilterAndDeserializeListJsonToListAsync("fuelstations.json", postCodesList);
+                    GasStations = stations;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error filtering stations: {ex.Message}");
+                }
             }
         }
         private async Task FilterStations()
@@ -178,6 +198,11 @@ namespace GeoFuel.ViewModel
             {
                 Console.WriteLine($"Error filtering stations: {ex.Message}");
             }
+        }
+        private async Task GetLocationAndLoadPostCodes()
+        {
+            await GetLocation();
+            await LoadPostCodes();
         }
     }
     

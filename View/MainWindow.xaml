@@ -40,21 +40,26 @@
         </Grid.RowDefinitions>
         <Rectangle Grid.Row="0" Grid.ColumnSpan="7" Fill="LightGray" />
         <TextBox mah:TextBoxHelper.Watermark="Wpisz kod pocztowy"  TextWrapping="Wrap" FontSize="15" VerticalAlignment="Top" HorizontalAlignment="Left"
-                Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Postcode, UpdateSourceTrigger=PropertyChanged}" mah:TextBoxHelper.ClearTextButton="True"
+                Grid.Column="0" Grid.ColumnSpan="3" Text="{Binding Postcode, UpdateSourceTrigger=PropertyChanged}" mah:TextBoxHelper.ClearTextButton="True"
                 Width="200" Height="33" x:Name="textBox" Margin="30,20,30,20">
         </TextBox>
         <TextBox mah:TextBoxHelper.Watermark="Wpisz współrzędne"  TextWrapping="Wrap" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Left"
-                Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Coords, UpdateSourceTrigger=PropertyChanged}" mah:TextBoxHelper.ClearTextButton="True"
-                Width="200" Height="33" x:Name="textBox2" Margin="225,0,0,0"/>
+                Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Coords, UpdateSourceTrigger=PropertyChanged}" mah:TextBoxHelper.ClearTextButton="True"
+                Width="220" Height="33" x:Name="textBox2" Margin="225,0,0,0"/>
         <Button x:Name="search" VerticalAlignment="Center" Height="33" Background="LightSlateGray"
                 Grid.Column="1" Command="{Binding FilterStationsCommand}" CommandParameter="{Binding ElementName=textBox, Path=Text}"
                 HorizontalAlignment="Left" Width="32" Margin="159,0,0,0">
             <iconPacks:PackIconForkAwesome Kind="Search" />
         </Button>
         <Button x:Name="button" VerticalAlignment="Center" Height="33"
-                Grid.Column="3" Command="{Binding FilterPostalCodesCommand}" CommandParameter="{Binding ElementName=textBox2, Path=Text}"
+                Grid.Column="4" Command="{Binding LoadPostCodesCommand}" CommandParameter="{Binding ElementName=textBox2, Path=Text}"
                 HorizontalAlignment="Center" Width="32" Background="Gray">
             <iconPacks:PackIconForkAwesome Kind="Search" />
+        </Button>
+        <Button x:Name="button2" VerticalAlignment="Center" Height="33"
+                Grid.Column="5" Command="{Binding GetLocationCommand}"
+                HorizontalAlignment="Center" Width="32" Background="Gray">
+            <iconPacks:PackIconForkAwesome Kind="LocationArrow" />
         </Button>
 
         <ListView ItemsSource="{Binding GasStations}" Grid.Row="1" Grid.ColumnSpan="7" HorizontalAlignment="Stretch">

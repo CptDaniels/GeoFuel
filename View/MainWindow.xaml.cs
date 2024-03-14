@@ -62,7 +62,7 @@ namespace GeoFuel.View
             GridViewColumn4.Width = column4Width;
             GridViewColumn5.Width = column5Width;
             GridViewColumn6.Width = column6Width;
-            GridViewColumn7.Width = column6Width;
+            GridViewColumn7.Width = column7Width;
         }
     }
 }
