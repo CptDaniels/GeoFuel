@@ -39,10 +39,16 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Rectangle Grid.Row="0" Grid.ColumnSpan="7" Fill="LightGray" />
+        <ComboBox ItemsSource="{Binding SearchList}" SelectedItem="{Binding SelectedCity}" x:Name="cityComboBox" 
+                  FontSize="15" IsEditable="True" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" 
+                  VerticalAlignment="Top" HorizontalAlignment="Left"
+                  Grid.Column="0" Grid.ColumnSpan="3" Width="200" Margin="30,20,30,20"/>
+        <!--=
         <TextBox mah:TextBoxHelper.Watermark="Wpisz kod pocztowy"  TextWrapping="Wrap" FontSize="15" VerticalAlignment="Top" HorizontalAlignment="Left"
                 Grid.Column="0" Grid.ColumnSpan="3" Text="{Binding Postcode, UpdateSourceTrigger=PropertyChanged}" mah:TextBoxHelper.ClearTextButton="True"
                 Width="200" Height="33" x:Name="textBox" Margin="30,20,30,20">
         </TextBox>
+        =-->
         <TextBox mah:TextBoxHelper.Watermark="Wpisz współrzędne"  TextWrapping="Wrap" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Left"
                 Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Coords, UpdateSourceTrigger=PropertyChanged}" mah:TextBoxHelper.ClearTextButton="True"
                 Width="220" Height="33" x:Name="textBox2" Margin="225,0,0,0"/>

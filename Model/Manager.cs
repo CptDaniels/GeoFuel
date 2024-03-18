@@ -13,6 +13,7 @@ using System.Linq;
 using System.Windows.Input;
 using System.Security.Policy;
 using System.Windows;
+using System.ComponentModel.DataAnnotations;
 
 namespace GeoFuel.Model
 {
@@ -24,6 +25,23 @@ namespace GeoFuel.Model
         public ObservableCollection<gas_station> GetStations()
         {
             return _DatabaseStation;
+        }
+        public async Task<List<string>> GetListFromStations(string jsonFilePath, string searchTerm)
+        {
+            try
+            {
+                string jsonContent = await File.ReadAllTextAsync(jsonFilePath);
+                List<gas_station> dataList = JsonConvert.DeserializeObject<List<gas_station>>(jsonContent);
+                List<string> data = dataList
+                .Where(station => station.infraPoczta.StartsWith(searchTerm, StringComparison.OrdinalIgnoreCase))
+                .Select(station => station.infraPoczta)
+                .ToList();
+                return data;
+            }
+            catch (Exception ex)
+            {
+                return new List<string>();
+            }
         }
         public async Task<ObservableCollection<gas_station>> FilterAndDeserializeJsonToListAsync(string jsonFilePath, string filter)
         {

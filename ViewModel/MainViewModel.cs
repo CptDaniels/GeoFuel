@@ -29,16 +29,17 @@ namespace GeoFuel.ViewModel
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        
-        
+        private string searchText;
+        private string selectedCity;
         private string _postcode;
         private List<string> _postCodes;
         private string _coords;
         private string _lat;
         private string _lng;
         private Manager manager;
-        //private GeoManager geoManager;
+        private ObservableCollection<string> searchList;
         private ObservableCollection<gas_station> _gasStations;
+
         public ObservableCollection<gas_station> GasStations
         {
             get { return _gasStations; }
@@ -48,7 +49,6 @@ namespace GeoFuel.ViewModel
                 OnPropertyChanged();
             }
         }
-        
         public List<string> PostCodes
         {
             get { return _postCodes; }
@@ -56,6 +56,24 @@ namespace GeoFuel.ViewModel
             {
                 _postCodes = value;
                 OnPropertyChanged();
+            }
+        }
+        public ObservableCollection<string> SearchList
+        {
+            get { return searchList; }
+            set
+            {
+                searchList = value;
+                OnPropertyChanged(nameof(SearchList));
+            }
+        }
+        public string SelectedCity
+        {
+            get { return selectedCity; }
+            set
+            {
+                selectedCity = value;
+                OnPropertyChanged(nameof(SelectedCity));
             }
         }
         public string Postcode
@@ -98,6 +116,16 @@ namespace GeoFuel.ViewModel
             {
                 _lng = value;
                 OnPropertyChanged();
+            }
+        }
+        public string SearchText
+        {
+            get { return searchText; }
+            set
+            {
+                searchText = value;
+                OnPropertyChanged(nameof(SearchText));
+                HandleSearchTextChanged();
             }
         }
         public ICommand LoadStationsCommand { get; }
@@ -203,6 +231,18 @@ namespace GeoFuel.ViewModel
         {
             await GetLocation();
             await LoadPostCodes();
+        }
+        private async void HandleSearchTextChanged()
+        {
+            if (!string.IsNullOrEmpty(SearchText))
+        {
+            List<string> cities = await manager.GetListFromStations("fuelstations.json", SearchText);
+            SearchList = new ObservableCollection<string>(cities.Distinct());
+        }
+        else
+        {
+            SearchList.Clear();
+        }
         }
     }
     
