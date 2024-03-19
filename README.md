@@ -1,2 +1,2 @@
 # GeoFuel
- ![alt text](https://github.com/[username]/[reponame]/blob/[branch]/readme_background.PNG?raw=true)
+ ![alt text](https://github.com/[username]/[reponame]/blob/[branch]/readme_background.PNG)
