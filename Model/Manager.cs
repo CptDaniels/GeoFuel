@@ -1,20 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
+﻿using System.IO;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Text;
-using System.Threading.Tasks;
-using System.Text.Json;
 using Newtonsoft.Json;
-using System.Linq;
-using System.Windows.Input;
-using System.Security.Policy;
-using System.Windows;
-using System.ComponentModel.DataAnnotations;
-
 namespace GeoFuel.Model
 {
     public class Manager
@@ -26,22 +12,30 @@ namespace GeoFuel.Model
         {
             return _DatabaseStation;
         }
-        public async Task<List<string>> GetListFromStations(string jsonFilePath, string searchTerm)
+        public async Task<List<string>> GetListFromStations(string jsonFilePath)
         {
             try
             {
                 string jsonContent = await File.ReadAllTextAsync(jsonFilePath);
                 List<gas_station> dataList = JsonConvert.DeserializeObject<List<gas_station>>(jsonContent);
-                List<string> data = dataList
-                .Where(station => station.infraPoczta.StartsWith(searchTerm, StringComparison.OrdinalIgnoreCase))
-                .Select(station => station.infraPoczta)
-                .ToList();
-                return data;
+                List<string> cities = dataList
+                    .Where(station => !string.IsNullOrEmpty(station.infraPoczta))
+                    .Select(station => station.infraPoczta.Trim())
+                    .Distinct(StringComparer.OrdinalIgnoreCase)
+                    .Select(city => char.ToUpper(city[0]) + city.Substring(1).ToLower())
+                    .ToList();
+                return cities;
             }
             catch (Exception ex)
             {
                 return new List<string>();
             }
+        }
+        public List<string> FilterCities(List<string> allCities, string searchTerm)
+        {
+            return allCities
+                .Where(city => city.StartsWith(searchTerm, StringComparison.OrdinalIgnoreCase))
+                .ToList();
         }
         public async Task<ObservableCollection<gas_station>> FilterAndDeserializeJsonToListAsync(string jsonFilePath, string filter)
         {
@@ -49,7 +43,9 @@ namespace GeoFuel.Model
             {
                 string jsonContent = await File.ReadAllTextAsync(jsonFilePath);
                 List<gas_station> dataList = JsonConvert.DeserializeObject<List<gas_station>>(jsonContent);
-                var filteredData = new ObservableCollection<gas_station>(dataList.Where(station => station.infraKod == filter));
+                var filteredData = new ObservableCollection<gas_station>(
+                dataList.Where(station => string.Equals(station.infraPoczta, filter, StringComparison.OrdinalIgnoreCase))
+        );
                 return filteredData;
             }
             catch (Exception ex)
@@ -69,7 +65,6 @@ namespace GeoFuel.Model
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
                 return new ObservableCollection<gas_station>();
             }
         }

@@ -1,22 +1,12 @@
 ﻿using GeoFuel.Model;
-using System;
 using System.IO;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Controls;
 using GalaSoft.MvvmLight.Command;
-using System.Windows.Data;
-using System.Windows.Interactivity;
-using System.Reflection.Metadata;
 using Newtonsoft.Json;
 
 namespace GeoFuel.ViewModel
@@ -32,7 +22,7 @@ namespace GeoFuel.ViewModel
         private string searchText;
         private string selectedCity;
         private string _postcode;
-        private List<string> _postCodes;
+        private List<string> _allCities;
         private string _coords;
         private string _lat;
         private string _lng;
@@ -49,12 +39,12 @@ namespace GeoFuel.ViewModel
                 OnPropertyChanged();
             }
         }
-        public List<string> PostCodes
+        public List<string> Allcities
         {
-            get { return _postCodes; }
+            get { return _allCities; }
             set
             {
-                _postCodes = value;
+                _allCities = value;
                 OnPropertyChanged();
             }
         }
@@ -136,7 +126,6 @@ namespace GeoFuel.ViewModel
         {
             
             manager = new Manager();
-            //geoManager = new GeoManager();
             LoadStationsCommand = new RelayCommand(async () => await LoadStations());
             LoadStationsCommand.Execute(null);
             FilterStationsCommand = new RelayCommand(async () => await FilterStations());
@@ -219,7 +208,7 @@ namespace GeoFuel.ViewModel
         {
             try
             {
-                ObservableCollection<gas_station> stations = await manager.FilterAndDeserializeJsonToListAsync("fuelstations.json", Postcode);
+                ObservableCollection<gas_station> stations = await manager.FilterAndDeserializeJsonToListAsync("fuelstations.json", SearchText);
                 GasStations = stations;
             }
             catch (Exception ex)
@@ -235,14 +224,20 @@ namespace GeoFuel.ViewModel
         private async void HandleSearchTextChanged()
         {
             if (!string.IsNullOrEmpty(SearchText))
-        {
-            List<string> cities = await manager.GetListFromStations("fuelstations.json", SearchText);
-            SearchList = new ObservableCollection<string>(cities.Distinct());
-        }
-        else
-        {
-            SearchList.Clear();
-        }
+            {
+                if (_allCities == null || !_allCities.Any())
+                {
+                    _allCities = await manager.GetListFromStations("fuelstations.json");
+                }
+
+                List<string> filteredCities = manager.FilterCities(_allCities, SearchText);
+                SearchList = new ObservableCollection<string>(filteredCities);
+            }
+            else
+            {
+                SearchList.Clear();
+            }
+
         }
     }
     
