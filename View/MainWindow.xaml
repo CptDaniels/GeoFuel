@@ -46,15 +46,15 @@
         <TextBox mah:TextBoxHelper.Watermark="Wpisz współrzędne"  TextWrapping="Wrap" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Left"
                 Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Coords, UpdateSourceTrigger=PropertyChanged}" mah:TextBoxHelper.ClearTextButton="True"
                 Width="220" Height="33" x:Name="textBox2" Margin="225,0,0,0"/>
-        <Button x:Name="search" VerticalAlignment="Center" Height="33" Background="LightSlateGray"
+        <Button x:Name="citySearch" VerticalAlignment="Center" Height="33" Background="LightSlateGray"
                 Grid.Column="1" Command="{Binding FilterStationsCommand}" CommandParameter="{Binding ElementName=cityComboBox, Path=Text}"
                 HorizontalAlignment="Left" Width="32" Margin="159,0,0,0">
-            <iconPacks:PackIconForkAwesome Kind="Search" />
+            <iconPacks:PackIconForkAwesome Kind="Search" KeyDown="City_KeyDown" />
         </Button>
-        <Button x:Name="button" VerticalAlignment="Center" Height="33"
+        <Button x:Name="coordsSearch" VerticalAlignment="Center" Height="33"
                 Grid.Column="4" Command="{Binding LoadPostCodesCommand}" CommandParameter="{Binding ElementName=textBox2, Path=Text}"
                 HorizontalAlignment="Center" Width="32" Background="Gray">
-            <iconPacks:PackIconForkAwesome Kind="Search" />
+            <iconPacks:PackIconForkAwesome Kind="Search" KeyDown="Coords_KeyDown"/>
         </Button>
         <Button x:Name="button2" VerticalAlignment="Center" Height="33"
                 Grid.Column="5" Command="{Binding GetLocationCommand}"
@@ -65,7 +65,7 @@
         <ListView ItemsSource="{Binding GasStations}" Grid.Row="1" Grid.ColumnSpan="7" HorizontalAlignment="Stretch">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn x:Name="GridViewColumn1" Header="Kod Pocztowy" Width="Auto" DisplayMemberBinding="{Binding infraPoczta}"/>
+                    <GridViewColumn x:Name="GridViewColumn1" Header="Miasto" Width="Auto" DisplayMemberBinding="{Binding infraPoczta}"/>
                     <GridViewColumn x:Name="GridViewColumn2" Header="Nazwa Stacji" Width="Auto" DisplayMemberBinding="{Binding nazwaStacji}"/>
                     <GridViewColumn x:Name="GridViewColumn3" Header="Ulica" Width="Auto">
                         <GridViewColumn.CellTemplate>
@@ -96,7 +96,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn x:Name="GridViewColumn6" Header="Oleje" Width="Auto">
+                    <GridViewColumn x:Name="GridViewColumn6" Header="Diesel" Width="Auto">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Image Width="32" Height="32" HorizontalAlignment="Right">

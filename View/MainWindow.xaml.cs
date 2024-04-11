@@ -1,6 +1,8 @@
 ﻿using System.Windows;
+using System;
 using MahApps.Metro.Controls;
 using GeoFuel.ViewModel;
+using System.Windows.Input;
 
 namespace GeoFuel.View
 {
@@ -23,6 +25,21 @@ namespace GeoFuel.View
         private void DeployCupCakes(object sender, RoutedEventArgs e)
         {
             // deploy some CupCakes...
+        }
+        private void City_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                citySearch.Command.Execute(citySearch.CommandParameter);
+                MessageBox.Show(" Enter pressed ");
+            }
+        }
+        private void Coords_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                coordsSearch.Command.Execute(coordsSearch.CommandParameter);
+            }
         }
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
