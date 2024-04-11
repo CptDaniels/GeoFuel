@@ -8,10 +8,6 @@ namespace GeoFuel.Model
         public ObservableCollection<gas_station> _DatabaseStation { get; set; } = new ObservableCollection<gas_station>()
         {
         };
-        public ObservableCollection<gas_station> GetStations()
-        {
-            return _DatabaseStation;
-        }
         public async Task<List<string>> GetListFromStations(string jsonFilePath)
         {
             try

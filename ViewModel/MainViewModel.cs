@@ -21,7 +21,6 @@ namespace GeoFuel.ViewModel
         }
         private string searchText;
         private string selectedCity;
-        private string _postcode;
         private List<string> _allCities;
         private string _coords;
         private string _lat;
@@ -64,15 +63,6 @@ namespace GeoFuel.ViewModel
             {
                 selectedCity = value;
                 OnPropertyChanged(nameof(SelectedCity));
-            }
-        }
-        public string Postcode
-        {
-            get { return _postcode; }
-            set
-            {
-                _postcode = value;
-                OnPropertyChanged();
             }
         }
         public string Coords
