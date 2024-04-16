@@ -60,5 +60,10 @@ namespace GeoFuel.View
             GridViewColumn6.Width = column6Width;
             GridViewColumn7.Width = column7Width;
         }
+
+        private void ListView_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
